@@ -31,3 +31,6 @@ resource_types:
 
 ### `in`: Get list of all packages in a bldr job group
 Will create an object list that consists of all of the packages that have been built in a bldr job group
+
+## Attribution
+This resource borrows very very heavily from starkandwayne/habitat-resource
