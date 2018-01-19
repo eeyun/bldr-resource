@@ -12,10 +12,12 @@ payload=$(mktemp /tmp/resource-in.XXXXXX)
 cat > "${payload}" <&0
 
 base_uri="https://bldr.habitat.sh/v1/depot/"
+group="$(jq -r '.version.group' < "${payload}")"
+build_id="$(jq -r '.version.group'| split("-")| .[] | select(.!= "bldr") < "${payload}")"
+filename="$(echo ${group})"
 
-group="$(jq -r '.version.group'| split("-")| .[] | select(.!= "bldr") < "${payload}")"
+curl "${base_uri}/pkgs/schedule/${build_id}" | \
+  jq '{ group: [ .projects[] | select(.name | contains("core/")) | .ident]}' > \
+  "${1}/${filename}"
 
-file_name="$(echo ${group})"
-
-curl "${base_uri}/pkgs/schedule/${group}" | \
-  jq '{ group: [ .projects[] | select(.name | contains("core/")) | .ident]}' >&3
+jq -n --arg group "${group}" '{version: { group: $group }}' >&3

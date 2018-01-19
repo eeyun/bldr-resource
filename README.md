@@ -6,7 +6,6 @@ a Concourse resource for promoting bldr job groups
 
 * `origin`: _Required_ the package origin
 * `name`: _Required_ the package name
-* `version`: _Optional_ the package version
 * `auth_token`: _Optional_ the token to authenticate with the depot. Required when uploading packages.
 
 ### Example

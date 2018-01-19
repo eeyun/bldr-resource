@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+exec 3>&1
+exec 1>&2
+
+set +x
+
+payload=$(mktemp /tmp/resource-in.XXXXXX)
+keys_cache=$(mktemp /tmp/hab_cache_keys_path.XXXXXX)
+trap "rm -f ${keys_cahce}" INT QUIT TERM EXIT
+export HAB_CACHE_KEYS_PATH=${keys_cache}
+
+
+cat > "${payload}" <&0
+
+origin="$(jq -r '.source.origin' < "${payload}")"
+name="$(jq -r '.source.name' < "${payload}")"
+channel="release-$(date +%s)"
+group ="$(jq -r '.version.group' < "${payload}")"
+
+echo "Pushing to channel '${channel}'"
+
+export HAB_ORIGIN=${origin}
+export HAB_AUTH_TOKEN="$(jq -r '.source.auth_token' < "${payload}")"
+
+hab origin key download ${origin}
+
+result="$(jq -r '.params.result' < "${payload}" )"
+cd "${1}/${result}"
+
+hab bldr job promote "${group}" "${channel}"
+
+jq -n --arg group "${group}" '{version: { group: $group }}' >&3
