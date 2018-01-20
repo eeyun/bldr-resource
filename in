@@ -13,7 +13,7 @@ cat > "${payload}" <&0
 
 base_uri="https://bldr.habitat.sh/v1/depot/"
 group="$(jq -r '.version.group' < "${payload}")"
-build_id="$(jq -r '.version.group'| split("-")| .[] | select(.!= "bldr") < "${payload}")"
+build_id="$(jq -r '.version.group | split("-")| .[] | select(.!= "bldr")' < "${payload}")"
 filename="$(echo ${group})"
 
 curl "${base_uri}/pkgs/schedule/${build_id}" | \
