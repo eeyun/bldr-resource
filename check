@@ -15,5 +15,5 @@ base_uri="https://bldr.habitat.sh/v1/depot"
 origin="$(jq -r '.source.origin' < "${payload}")"
 name="$(jq -r '.source.name' < "${payload}")"
 
-curl "${base_uri}/pkgs/${origin}/${name}/latest" | \
+curl "${base_uri}/pkgs/${origin}/${name}/latest" 2>/dev/null | \
   jq '[ .channels[] | { group: select(. | contains("bldr-"))}]' >&3
