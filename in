@@ -17,7 +17,7 @@ build_id="$(jq -r '.version.group'| split("-")| .[] | select(.!= "bldr") < "${pa
 filename="$(echo ${group})"
 
 curl "${base_uri}/pkgs/schedule/${build_id}" | \
-  jq '{ group: [ .projects[] | select(.name | contains("core/")) | .ident]}' > \
+  jq '{ group: [ .projects[] | select(.name | contains("core/")) ]}' > \
   "${1}/${filename}"
 
 jq -n --arg group "${group}" '{version: { group: $group }}' >&3
