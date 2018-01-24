@@ -24,11 +24,7 @@ group=${build_channel#bldr-}
 echo ""
 echo "Let's look at the contents of this fuckin' container bullshit"
 echo ""
-ls -la .
-echo ""
-echo "Now one step up"
-echo ""
-ls -la ..
+ls -la /tmp/build/put
 
 echo "Pushing 'bldr-${group}' to channel '${channel}'"
 
