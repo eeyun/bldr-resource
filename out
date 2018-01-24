@@ -18,7 +18,8 @@ cat > "${payload}" <&0
 origin="$(jq -r '.source.origin' < "${payload}")"
 name="$(jq -r '.source.name' < "${payload}")"
 channel="release-$(date +%s)"
-group="$(jq -r '.version.group' < "${payload}")"
+build_channel="$(jq -r '.version.group' < "${payload}")"
+group=${build_channel#bldr-}
 
 echo "Pushing to channel '${channel}'"
 
