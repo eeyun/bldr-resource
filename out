@@ -21,7 +21,7 @@ channel="release-$(date +%s)"
 build_channel="$(jq -r '.version.group' < "${payload}")"
 group=${build_channel#bldr-}
 
-echo "Pushing to channel '${channel}'"
+echo "Pushing 'bldr-${group}' to channel '${channel}'"
 
 export HAB_ORIGIN=${origin}
 export HAB_AUTH_TOKEN="$(jq -r '.source.auth_token' < "${payload}")"
