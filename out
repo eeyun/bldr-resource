@@ -18,8 +18,6 @@ cat > "${payload}" <&0
 origin="$(jq -r '.source.origin' < "${payload}")"
 name="$(jq -r '.source.name' < "${payload}")"
 channel="release-$(date +%s)"
-build_channel="$(jq -r '.version.group' < "${payload}")"
-group=${build_channel#bldr-}
 
 echo "Pushing 'bldr-${group}' to channel '${channel}'"
 
@@ -31,7 +29,8 @@ hab origin key download ${origin}
 result="$(jq -r '.params.result' < "${payload}" )"
 cd "${1}/${result}"
 
-ls -la
+build_group=$(ls)
+group=${build_group#bldr-}
 
 hab bldr job promote "${group}" "${channel}"
 
