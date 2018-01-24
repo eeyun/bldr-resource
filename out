@@ -21,6 +21,15 @@ channel="release-$(date +%s)"
 build_channel="$(jq -r '.version.group' < "${payload}")"
 group=${build_channel#bldr-}
 
+echo ""
+echo "Let's look at the contents of this fuckin' container bullshit"
+echo ""
+ls -la .
+echo ""
+echo "Now one step up"
+echo ""
+ls -la ..
+
 echo "Pushing 'bldr-${group}' to channel '${channel}'"
 
 export HAB_ORIGIN=${origin}
