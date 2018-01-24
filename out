@@ -29,7 +29,9 @@ export HAB_AUTH_TOKEN="$(jq -r '.source.auth_token' < "${payload}")"
 hab origin key download ${origin}
 
 result="$(jq -r '.params.result' < "${payload}" )"
-cat "${1}/${result}"
+cd "${1}/${result}"
+
+ls -la
 
 hab bldr job promote "${group}" "${channel}"
 
