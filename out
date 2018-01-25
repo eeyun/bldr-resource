@@ -34,4 +34,4 @@ echo "Pushing 'bldr-${group}' to channel '${channel}'"
 
 hab bldr job promote "${group}" "${channel}"
 
-jq -n --arg group "${group}" '{version: { group: $group }}' >&3
+jq -n --arg group "${group}" '{version: { group: $build_group }}' >&3
