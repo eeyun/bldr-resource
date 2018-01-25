@@ -17,7 +17,6 @@ cat > "${payload}" <&0
 
 origin="$(jq -r '.source.origin' < "${payload}")"
 name="$(jq -r '.source.name' < "${payload}")"
-channel="release-$(date +%s)"
 
 export HAB_ORIGIN=${origin}
 export HAB_AUTH_TOKEN="$(jq -r '.source.auth_token' < "${payload}")"
@@ -29,6 +28,7 @@ cd "${1}/${result}"
 
 build_group=$(ls)
 group=${build_group#bldr-}
+channel="release-${group}"
 
 echo "Pushing 'bldr-${group}' to channel '${channel}'"
 
